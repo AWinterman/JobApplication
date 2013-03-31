@@ -1,0 +1,90 @@
+\documentclass{article}
+\usepackage{amssymb,amsthm,amsmath}
+
+\begin{document}
+\title{The Token Test: Take II}
+\author{Andrew Winterman}
+
+\maketitle
+
+\subsection*{Assumptions, the General Idea, and Requisite Data Structures}
+
+My general idea is still to construct a big matrix, called $X$, with rows corresponding to lines of text, and columns corresponding to tokens. If the $i^{th}$ line has the $j^{th}$ token on it, then the $ij^{th}$ entry of the matrix is flipped from $0$ to $1$. However, because we have no \textit{a priori} knowledge of the length of the file and the token list,  the matrix must be constructed in some efficient way as we read through the file. Once again, once the file has been read, we sum down the columns of $X$ to find out how many times each token appeared. My assumptions are listed below: 
+ 
+\begin{enumerate}
+\item There is no more than one token per line 
+\item Identifying tokens is not part of the problem. - i.e. they are clearly delineated within the data set. \label{crucial}
+\item It is inexpensive to read each line
+\item We have no a priori knowledge of either the token list or the length of the document. \label{token}
+\end{enumerate}
+
+My algorithm will use a hash function, $f$, to map tokens to indices of columns of $X$. The hash table defining $f$ will be changed as new tokens are discovered. Matching them to indices in the order they were discovered.
+
+$X$ will be a linked list of linked lists, to allow for easy on-the-spot modification. Each list in $X$ corresponds to a token (column). When a new token is discovered, a linked list of form $\{ 0,0,\dots,0, 1 \}$ is added to $X$ with length equal to the number of lines read so far. Each additional line read adds an entry to each list. At the end of the document, each list in $X$ will be summed and printed with its corresponding token.
+
+
+\subsection*{Algorithm in Psuedo-code }
+\texttt{  
+(\textnormal{First we initialize the matrix $X$ and the hash function $f$}) \newline
+Let $T$ be the list of tokens discovered \newline Let $N_k = \{0,1 ,\dots ,k\}$, where $k$ is the number of tokens discovered. \newline
+Let $f: T \to N_k$ be defined as follows as described above. i.e. f(smallest token) = 1, f(second smallest token) = 2, and so on. $T$ and $N_k$ are global variables.   \newline 
+\indent (\textnormal{$f$ is the hash function, and sends the Token corresponding to the empty string to 0.}) \newline
+LET $X = \{\{\}\}$, \newline
+\indent \textnormal{(an empty linked list of linked lists)} \newline
+LET $T = \{\}$ and $k = 0$ \newline
+\indent (\textnormal{Because we have not discovered any tokens, yet.})\newline
+LET n = 1 \newline
+WHILE [Document has not ended] \newline
+\indent read line n \newline
+\indent IF  [Token is found AND $f(\textnormal{Token}) =  k + 1$] \newline
+\indent \indent \textnormal{(i.e. if a new token is discovered on line n)}  \newline
+\indent \indent addend a list of form $\{0, 0, \dots, 1\}$ and length n to the end of $X$ 
+\indent \indent \indent (\textnormal{the new list should be constructed by specifying that the \newline \indent \indent \indent last entry is 1, and that all preceding entries are 0.})
+\newline 
+\indent \indent addend a `0' to all other lists in $X$. \newline
+\indent \indent LET $k = k+1$, $N_k = \{1,2, \dots, k\}$, $T = T \cup \{\textnormal{Token}\} $ \newline
+\indent IF  [Token is found AND $f(\textnormal{Token}) = j \leq k$] \newline
+\indent \indent \textnormal{(i.e. if an old token is found on line $i$)}  \newline
+\indent \indent addend a `1' to the $j^{th}$ list of $X $  \newline
+\indent \indent addend a `0' to all other lists in $X$. \newline
+\indent ELSE \newline
+\indent \indent addend a `0' to the end of all lists in $X$ \newline
+\indent Increment n, the line index. \newline
+(\textnormal{At this point the whole document has been read}) \newline
+FOR [$j$ in $1, 2, \dots , k$] \newline
+\indent  (\textnormal{recall that k is the total number unique tokens discovered}) \newline
+\indent       Let $v_j = \sum^n_{j = 1} x_{j}$ \newline
+\indent \indent (\textnormal{where $x_j$ is the $j^{th}$ list in $X$.}) \newline
+PRINT: \newline
+\indent Tolken list | v \newline
+}
+
+
+\subsection*{Time Complexity}
+
+Suppose the total number of tokens discovered is $m$, that the total number of lines in the document is $n$, and that the number of tokens discovered prior to the $i^{th}$ iteration of the WHILE loop is $k_i$. In the worst case, each token is found only once in the document. In this case, the hash function takes $k_i - 1$ operations to discover the $k_i^{th}$ token. The WHILE loop invokes the hash function at most $m$ times, and then carries out $k_i$ operations per time, So it looks like the while loop takes $O(n + m \cdot \sum_{i = 1}^ m 1 )$ time, which is bounded by $O(n+m^2)$.
+
+ The FOR loop involves $m$ summations of $n$ terms, so if they are done sequentially  it takes $m \cdot n$ operations. Assuming the time to read and identify a token is independent of $n$ and $m$, the total time complexity of the algorithm above is $O(m \cdot n + m^2)$. If we can compute all $m$ sums simultaneously, then the algorithm runs in $O(n + m^2)$ time. 
+ 
+ I do not believe this algorithm is optimal for its task. As a matter of fact, I think I could further optimize the hash function by ordering the tokens according to the character strings contained in them and using a binary search tree to hold all known tokens. Newly discovered token would be inserted into the appropriate place, as dictated by ordinality. This is unimplemented because I wanted to complete the analysis of the algorithm above before modifying it.  
+ 
+ However, I have good reason to believe this would improve the time complexity of the problem, despite the added expense caused by modifying the binary search tree as new tokens are discovered. I found a paper\footnote{ Khosraviyani F., "Using Binary Search On a Linked List," published in Newsletter ACM SIGCSE Bulletin Homepage archive, Volume 22 Issue 3, Sep. 1990.}  which states that binary search on a binary tree linked list takes log $m$ time, if $m$ is the length of the list.  Hence implementing this change would improve the time complexity of the WHILE loop to $O(n + m \textnormal{ log } m)$ because each call to the hash function would take log $k_i$ (i = 1, \dots, m) rather than $k_i - 1$ operations. 
+  
+
+\end{document}
+
+ So after reading three lines of code, $X$ could be: 
+\begin{eqnarray}
+X &=& [ [1,0, 1], [1,1, 1], [0,0,0]] \\
+\\
+&=& \left( \begin{array}{ccc}
+1 & 1 & 0 \\
+0 & 1 & 0\\
+1 & 1 & 0 \end{array} \right)  
+\end{eqnarray}
+
+
+In addition to $f$ I want another function $g$ which maps from the set of all legal strings to integers such that each string corresponds to a unique integer. If $a$ and $b$ are strings, then $a < b$ if and only if $g(a) < g(b)$. In other words, $g$ specifies an ordering of legal strings.
+
+$f$ maps tokens to their ordinal number. In other words, if TOKEN is the third largest token discovered, then $f(\textnormal{TOKEN}) = 3$ If $k$ tokens have been discovered, then the first token is smallest and the $k^{th}$ one is largest.
+

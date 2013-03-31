@@ -1,0 +1,173 @@
+\documentclass[11pt]{article}
+\setlength{\tabcolsep}{4pt}
+\setlength{\parindent}{0cm}
+\setlength{\voffset}{0cm}
+\setlength{\headsep}{15pt}
+\setlength{\footskip}{-25pt}
+%\pagestyle{empty}
+
+\renewcommand{\arraystretch}{1}
+\newcommand{\fbuff}{\vfill}
+\newcommand{\buff}{\vspace{4px}}
+
+\newcommand{\Entry}[5]{
+    \begin{tabular}{p{0.01\textwidth}p{0.15\textwidth}p{0.7\textwidth}p{0.12\textwidth}}  
+        & \scshape{#1} \newline \slshape{#2} & #3 & #4\newline#5 \\
+\end{tabular}
+}
+
+%\newcommand{\MySection}[1]{
+%
+%    \vspace{-22pt}
+%    \begin{tabular}{p{0.15\textwidth}p{0.68\textwidth}p{0.1\textwidth}}  
+%    &
+%    \begin{flushleft}\textcolor{steelblue}{\large{\textbf{\textsc{#1}}}}\end{flushleft} &  \\ 
+%    \end{tabular}
+%    \vspace{-14pt}
+%}
+
+\newcommand{\MySection}[1]{
+    %\vspace{-22pt}
+     \begin{tabular}{p{0.15\textwidth}p{0.68\textwidth}p{0.1\textwidth}}  
+        \multicolumn{3}{l}{\large{\textbf{#1}}} 
+    \end{tabular}
+    %\vspace{-14pt}
+
+}
+\usepackage{fancyhdr}
+\usepackage[document]{ragged2e}
+\usepackage[german]{babel}
+\usepackage[top=1in, bottom=1in, right=1in, left=1in, footskip=16pt]{geometry}
+
+\usepackage{color}
+\definecolor{steelblue}{rgb}{0.02638, 0.5, 0.67578125}
+\usepackage[compact]{titlesec}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{hyperref}
+\hypersetup{
+            colorlinks=true,
+            urlcolor=steelblue,
+            linkcolor=steelblue
+}
+
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{soul}
+
+
+\pagestyle{fancy}
+
+\fancyhead{}
+
+\renewcommand{\headrulewidth}{1pt}
+\chead{
+    \textsc{\huge{\so{andrew winterman}}}
+}
+\cfoot{ 
+    \hrule  \\
+    \vspace{3px}
+    2807 NE Glisan Apt. 304, Portland, OR 97232 \\
+andywinterman@gmail.com - 714 362 6823 - 
+\url{https://github.com/AWinterman}
+}
+
+\begin{document}
+\hspace{0.175\textwidth}\parbox{0.69\textwidth}{
+ Critical, creative thinker, quick learner, disciplined, numerate. \\ 
+ \textit{Education}: Reed College (2010) Mathematics BA,
+\href{https://github.com/AWinterman/Thesis/blob/master/TestofEquivalence.pdf?raw=true}{Thesis}. \\
+    \textit{Specialties}:  \normalfont Data Visualization, Machine Learning,
+Statistics. \newline
+}
+\buff
+\fbuff
+
+\MySection{Employment History}
+\buff
+\Entry{data \newline scientist}{\href{http://www.periscopic.com/}{Periscopic}}{Translate data into graphics for
+    intuitive interpretation. Implement software for machine learning, data analysis.
+    Research new projects, make sense of data from diverse sources (economics,
+    ecology, epidemiology, technology, etc.). Prototype visualization
+    methods uniquely suited to the data set and to the needs of the client.
+}{Aug 2011}{Present}
+
+\buff
+\Entry{\href{http://www.nsf.gov/funding/pgm_summ.jsp?pims_id=5517&from=fund}{reu} intern}{Reed College}{Repaired and improved available
+statistical tools for cDNA microarray analysis using the R programming
+language. Collaborated with a team of undergraduates under Professors Renn and Jones. }{May 2010}{Aug 2010}
+
+\buff
+
+\Entry{Researcher}{University of Puerto Rico}{Investigated multiferroics
+    properties of certain thin films at Spectrum Labratories, Rio Piedras campus. Coauthored
+    a \href{http://jap.aip.org/resource/1/japiau/v105/i8/p084110_s1?isAuthorized=no}{scientific
+    paper} describing work completed. }{Oct 2008}{Dec 2008}
+
+\buff
+
+\Entry{\href{https://www.daad.org/}{daad} intern}{University of
+M"unster}{Operated tomographic atom probe,
+    transmission electron microscope, and field ion microscope at
+    the Institue for Material \mbox{Physics}. Investigated effect of extreme temperatures on the rate of diffusion of
+nano-materials.}{May 2008}{Sep 2008}
+\fbuff
+
+
+\MySection{Skills, Interests \& Expertise}
+\buff
+
+\Entry{Computer Languages}{}{Proficient in Python, R, Javascript
+(\href{http://d3js.org/}{D3}), SVG. Familiar with HTML, CSS, MySQL, SQLite. Exposure to
+Clojure, Haskell.
+\href{https://github.com/scikit-learn/scikit-learn/commits?author=AWinterman}{Contributor}
+to \href{http://scikit-learn.org/dev/}{Scikit-Learn}, a machine learning
+toolkit.}{}{} 
+
+\buff
+\Entry{Relevant Coursework}{}{
+    \textit{OHSU}: Biostatistics, Epidemiology. \newline
+    \textit{Reed College}: 
+    Mathematical Statistics,
+    Probability,
+    Abstract \&  \mbox{Linear}  Algebra,
+    %Real \& Complex Analysis,
+    Advanced Topics in Epistemology: Computation.
+    %Topics in Algebra: Galois Theory  
+    }
+{}{}
+\buff
+
+\Entry{Interests}{}{\textit{Languages}: Fluent in Spanish. Intermediate German.
+    \newline
+    \textit{Hobbies}: Cooking, drawing (pencil, pen \& ink wash, charcoal),
+    Ultimate Frisbee. Craft coffee and microbrews.}{}{}
+\fbuff
+
+\MySection{Community Involvement}
+\buff
+
+\Entry{Student \newline Leader}{Reed College}{Led four day backpack in Mt. Adams
+    wilderness area for incoming Reed College freshmen. Responsibilities
+include group safety, organizing meals, clean water, tending group
+morale.}{Aug 2010}{}
+
+\buff
+
+\Entry{Organizer}{Jump Rope Club}{Student Health: Installed jump ropes in lobby
+    of Reed College library to combat stress culture, encouraging students to
+exercise as a study break.}{Feb 2009}{Apr 2009}
+
+\buff
+
+\Entry{Teacher}{Voz Workers' Rights Project}{Taught English to Latin
+American adult day laborers. Focused on
+vocabulary, pronunciation.}{Oct 2009}{}
+
+\buff
+
+\Entry{Volunteer}{Ayuda Directa}{Constructed dust-free building in remote
+    Andean village to properly house government issued computers. Tutored
+English vocabulary and grammar.}{Aug 2007}{}
+\end{document}
